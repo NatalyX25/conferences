@@ -1,7 +1,9 @@
 <?php
 require_once "Models/speaker.php";
+require_once "Models/conference.php";
 
 $speakerObject = new Speaker();
+$conferenceObject = new Conference();
 ?>
 <div class="container">
     <div class="row">
@@ -9,25 +11,29 @@ $speakerObject = new Speaker();
             <h2>Crear conferencia</h2>
             <form id="conference_form">
                 <div class="form-group">
-                    <input type="text" name="conference_name" id="conference_name" class="form-control" placeholder="Nombre de la conferencia">
+                    <input type="text" name="conference_name" id="conference_name" class="form-control" placeholder="Nombre de la conferencia"
+                           data-validation="required">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="conference_place" id="conference_place" class="form-control" placeholder="Lugar">
+                    <input type="text" name="conference_place" id="conference_place" class="form-control" placeholder="Lugar"
+                           data-validation="required">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="conference_date_time" id="conference_date_time" class="form-control" placeholder="Fecha y hora" data-validation="date" data-validation-format="yyyy-mm-dd">
+                    <input type="text" name="conference_date" id="conference_date" class="form-control" placeholder="Fecha"
+                           data-validation="date" data-validation-format="yyyy-mm-dd">
                 </div>
                 <div class="form-group">
-                    <textarea rows="4" cols="20" name="conference_description" id="conference_description" class="form-control" placeholder="Descripción"></textarea>
+                    <textarea rows="4" cols="20" name="conference_description" id="conference_description" class="form-control"
+                              placeholder="Descripción" data-validation="required"></textarea>
                 </div>
                 <div class="form-group">
-                    <select id="conference_speaker" class="form-control">
+                    <select name="conference_speaker" id="conference_speaker" class="form-control">
                         <?php
                         $speakers = $speakerObject->getAllSpeakers();
                         echo "<option value=0>Conferencista</option>";
                         foreach ($speakers as $speaker)
                         {
-                            echo "<option value='{$speaker["id"]}'>{$speaker["name"]}</option>";
+                            echo "<option value='{$speaker["id"]}'>{$speaker["name"]} {$speaker["last_name"]}</option>";
                         }
                         ?>
                     </select>
@@ -36,22 +42,29 @@ $speakerObject = new Speaker();
             </form>
         </div>
         <div class="col-lg-8">
-            <h2>Heading</h2>
+            <h2>Conferencias programadas</h2>
             <table class="table table-bordered">
                 <tr>
                     <th>Título</th>
                     <th>Descripción</th>
                     <th>Lugar</th>
-                    <th>Fecha y hora</th>
+                    <th>Fecha</th>
                     <th>Conferencista</th>
                 </tr>
-                <tr>
-                    <td>Conferencia de algo</td>
-                    <td>Brinda alguna información</td>
-                    <td>En algún sitio</td>
-                    <td>2018-05-17 17:00</td>
-                    <td>Fulano De Tal</td>
-                </tr>
+
+                <?php
+                $conferences = $conferenceObject->getAllConferences();
+                foreach ($conferences as $conference)
+                {
+                    echo "<tr>";
+                    echo "<td>{$conference["title"]}</td>";
+                    echo "<td>{$conference["description"]}</td>";
+                    echo "<td>{$conference["place"]}</td>";
+                    echo "<td>{$conference["date"]}</td>";
+                    echo "<td>{$conference["speakerName"]} {$conference["last_name"]}</td>";
+                    echo "</tr>";
+                }
+                ?>
 
             </table>
         </div>

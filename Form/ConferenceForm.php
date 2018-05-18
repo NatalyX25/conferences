@@ -6,6 +6,8 @@
  * Time: 08:35 PM
  */
 
+require_once "Form.php";
+
 class ConferenceForm extends Form
 {
     private $conference;
@@ -17,8 +19,24 @@ class ConferenceForm extends Form
 
     public function validate()
     {
-        foreach ($this->conference as $item){
-
+        $formField = new Form();
+        foreach ($this->conference as $field => $value){
+            if ($field == 'conference_name' || $field == 'conference_place' || $field == 'conference_description'){
+                if (!$formField->validateString($value)){
+                    return false;
+                }
+            }
+            if ($field == 'conference_date'){
+                if (!$formField->validateDate($value)){
+                    return false;
+                }
+            }
+            if ($field == 'conference_speaker'){
+                if (!$formField->validateSpeaker($value)){
+                    return false;
+                }
+            }
         }
+        return true;
     }
 }

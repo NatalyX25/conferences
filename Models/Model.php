@@ -6,7 +6,6 @@
  * Time: 08:48 PM
  */
 
-require_once 'connection.php';
 
 class Model
 {

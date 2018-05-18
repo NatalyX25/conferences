@@ -6,21 +6,34 @@
  * Time: 01:06 AM
  */
 
-class Conference {
+require_once "Model.php";
 
-    public function getConnection(){
-        $connection = require_once 'connection.php';
-        $db_conn = new PDO($connection['dsn'],$connection['user'],$connection['pass']);
-    }
-
+class Conference extends Model
+{
     public function getAllConferences(){
-        $query = "SELECT place, date_time, con.name, description, spk.name,last_name
+        $query = "SELECT place, date, con.name as title, description, spk.name as speakerName,last_name
               FROM conferences AS con
               INNER JOIN speakers AS spk ON con.speaker = spk.id;";
 
-        $result = $GLOBALS['db_conn']->query($query)->fetchAll();
+        try{
+            return $this->connection->query($query)->fetchAll();
+        } catch (Exception $exception){
+            return [];
+        }
+    }
 
-        return $result;
+    public function saveNewConference($conferenceData){
+        $query = "INSERT INTO conferences
+                    (name, place, date, description, speaker)
+                  VALUES ('{$conferenceData['conference_name']}','{$conferenceData['conference_place']}','{$conferenceData['conference_date']}',
+                    '{$conferenceData['conference_description']}',{$conferenceData['conference_speaker']})";
+
+        try{
+            $this->connection->exec($query);
+            return true;
+        } catch (Exception $exception){
+            return false;
+        }
     }
 
 }

@@ -14,7 +14,26 @@ function submitConferenceForm() {
 
 }
 
+function submitSpeakerForm() {
+    var url = "Controllers/speakerController.php";
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: $("#speaker_form").serialize(),
+        success: function(data)
+        {
+            alert(data);
+        }
+    });
+
+}
+
 $("#conference_form").submit(function(e){
+    return false;
+});
+
+$("#speaker_form").submit(function(e){
     return false;
 });
 
