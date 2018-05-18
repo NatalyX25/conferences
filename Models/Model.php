@@ -19,15 +19,12 @@ class Model
 
     public function __construct()
     {
-        $this->connection = new PDO(self::dsn, self::user, self::pass);
-        var_dump($this->connection); die;
 
-//        try{
-//            $this->connection = new PDO(self::dsn, self::user, self::pass);
-//            var_dump($this->connection); die;
-//        }catch (Exception $exception){
-//            echo $exception->getMessage();
-//        }
+        try{
+            $this->connection = new PDO(self::dsn, self::user, self::pass);
+        }catch (Exception $exception){
+            echo $exception->getMessage();
+        }
 
     }
 }

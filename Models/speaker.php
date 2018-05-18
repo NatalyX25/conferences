@@ -18,14 +18,11 @@ class Speaker extends Model
         $query = "SELECT id, name,last_name, phone_number, email, organization, cv_resume 
               FROM speakers;";
 
-
-        var_dump($this->connection, $query); die;
-
-//        try{
-//            return $this->connection->query($query)->fetchAll();
-//        } catch (Exception $exception){
-//            return [];
-//        }
+        try{
+            return $this->connection->query($query)->fetchAll();
+        } catch (Exception $exception){
+            return [];
+        }
     }
 
     public function saveSpeaker($data){
